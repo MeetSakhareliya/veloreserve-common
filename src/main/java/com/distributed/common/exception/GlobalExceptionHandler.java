@@ -58,4 +58,13 @@ public class GlobalExceptionHandler {
                 .time(Timestamp.valueOf(LocalDateTime.now())).build();
         return new ResponseEntity<>(errorResponse, HttpStatusCode.valueOf(500));
     }
+
+    @ExceptionHandler(IdempotentException.class)
+    public ResponseEntity<ErrorResponse> handleIdempotentException(IdempotentException ex){
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .error("Idempotency Exception")
+                .message(ex.getMessage())
+                .time(Timestamp.valueOf(LocalDateTime.now())).build();
+        return new ResponseEntity<>(errorResponse, HttpStatusCode.valueOf(425));
+    }
 }
