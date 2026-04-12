@@ -67,4 +67,13 @@ public class GlobalExceptionHandler {
                 .time(Timestamp.valueOf(LocalDateTime.now())).build();
         return new ResponseEntity<>(errorResponse, HttpStatusCode.valueOf(425));
     }
+
+    @ExceptionHandler(AuthException.class)
+    public ResponseEntity<ErrorResponse> handleIdempotentException(AuthException ex){
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .error("Auth Exception")
+                .message(ex.getMessage())
+                .time(Timestamp.valueOf(LocalDateTime.now())).build();
+        return new ResponseEntity<>(errorResponse, HttpStatusCode.valueOf(401));
+    }
 }
